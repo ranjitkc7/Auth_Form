@@ -32,7 +32,7 @@ class SignUpForm extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             width: double.infinity,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 108, 203, 196),
+              color: Color.fromARGB(255, 246, 5, 170),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
@@ -50,7 +50,7 @@ class SignUpForm extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w800,
-                    color: Color.fromARGB(255, 14, 50, 230),
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -184,7 +184,7 @@ class LoginForm extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             width: double.infinity,
             decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 108, 203, 196),
+              color: const Color.fromARGB(255, 246, 5, 170),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
@@ -202,7 +202,7 @@ class LoginForm extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.w800,
-                    color: Color.fromARGB(255, 14, 50, 230),
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -285,16 +285,43 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool showImage = false;
+  var number = 1;
+  bool isDarkMode = false;
 
   @override
   Widget build(BuildContext context) {
+    final bgcolor = isDarkMode ? Colors.black : Colors.white;
+    final textColor = isDarkMode ? Colors.white : Colors.black;
+    final buttonColor = isDarkMode
+        ? const Color.fromARGB(255, 36, 5, 5)
+        : const Color.fromARGB(255, 246, 5, 170);
     return Scaffold(
-      backgroundColor: Colors.amber,
+      backgroundColor: bgcolor,
+      appBar: AppBar(
+        title: Text("Home Page", style: TextStyle(color: textColor)),
+        backgroundColor: buttonColor,
+        actions: [
+          IconButton(
+            icon: Icon(
+              isDarkMode ? Icons.dark_mode : Icons.light_mode,
+              color: textColor,
+              size: 35,
+            ),
+
+            onPressed: () {
+              setState(() {
+                isDarkMode = !isDarkMode;
+              });
+            },
+          ),
+        ],
+      ),
+
       body: Center(
         child: Column(
           //  mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 30),
+            const SizedBox(height: 5),
             const Text(
               "Hello, Ranjit!",
               style: TextStyle(
@@ -333,15 +360,82 @@ class _HomePageState extends State<HomePage> {
             ),
             const SizedBox(height: 10),
             if (showImage)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                'assets/images/group.jpg',
-                height: 200,
-                width: 300,
-                fit: BoxFit.cover,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
+                  'assets/images/group.jpg',
+                  height: 200,
+                  width: 300,
+                  fit: BoxFit.cover,
+                ),
               ),
+            const SizedBox(height: 10),
+            Container(
+              width: 150,
+              height: 100,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 22, 15, 224),
+                borderRadius: BorderRadius.circular(12),
               ),
+              child: Center(
+                child: Text(
+                  number.toString(),
+                  style: TextStyle(
+                    fontSize: 78,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      number++;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(8),
+                    elevation: 8,
+                  ),
+                  child: Icon(Icons.add, size: 70, color: Colors.white),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      number = 0;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(8),
+                    elevation: 8,
+                  ),
+                  child: Icon(Icons.refresh, size: 70, color: Colors.white),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      number--;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(8),
+                    elevation: 8,
+                  ),
+                  child: Icon(Icons.remove, size: 70, color: Colors.white),
+                ),
+              ],
+            ),
           ],
         ),
       ),
