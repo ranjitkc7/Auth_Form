@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -287,6 +288,47 @@ class _HomePageState extends State<HomePage> {
   bool showImage = false;
   var number = 1;
   bool isDarkMode = false;
+  bool isRunning = false;
+
+  late Stopwatch stopwatch;
+  late Timer timer;
+
+  @override
+  void initState() {
+    super.initState();
+    stopwatch = Stopwatch();
+  }
+
+  void toogleStopWatch() {
+    if (isRunning) {
+      stopwatch.stop();
+      timer.cancel();
+    } else {
+      timer = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+        setState(() {});
+      });
+      stopwatch.start();
+    }
+    setState(() {
+      isRunning = !isRunning;
+    });
+  }
+
+  void resetStopWatch() {
+    stopwatch.reset();
+    setState(() {});
+  }
+
+  String formatTime(int milliseconds) {
+    final seconds = (milliseconds / 1000).truncate();
+    final minutes = (seconds / 60).truncate();
+    final remainingSeconds = seconds % 60;
+    final remainigMilliseconds = (milliseconds % 1000) ~/ 10;
+
+    return '${minutes.toString().padLeft(2, '0')}:'
+        '${remainingSeconds.toString().padLeft(2, '0')}:'
+        '${remainigMilliseconds.toString().padLeft(2, '0')}';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -317,11 +359,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
-      body: Center(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top:1,bottom: 50),
+        child : Center(
         child: Column(
           //  mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 5),
+            
             const Text(
               "Hello, Ranjit!",
               style: TextStyle(
@@ -436,8 +480,59 @@ class _HomePageState extends State<HomePage> {
                 ),
               ],
             ),
+            const SizedBox(height: 10),
+            Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: const Color.fromARGB(255, 5, 37, 246),
+              ),
+              child: Center(
+                child: Text(
+                  formatTime(stopwatch.elapsedMilliseconds),
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                    fontFamily: 'Times New Roman',
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 3),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: toogleStopWatch,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(8),
+                    elevation: 8,
+                  ),
+                  child: Icon(
+                    isRunning ? Icons.pause : Icons.play_arrow,
+                    size: 70,
+                    color: Colors.white,
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: resetStopWatch,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                    shape: CircleBorder(),
+                    padding: EdgeInsets.all(8),
+                    elevation: 8,
+                  ),
+                  child: Icon(Icons.refresh, size: 70, color: Colors.white),
+                ),
+              ],
+            ),
           ],
         ),
+      ),
       ),
     );
   }
