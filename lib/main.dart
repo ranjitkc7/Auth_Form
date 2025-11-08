@@ -360,179 +360,254 @@ class _HomePageState extends State<HomePage> {
       ),
 
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(top:1,bottom: 50),
-        child : Center(
-        child: Column(
-          //  mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            
-            const Text(
-              "Hello, Ranjit!",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.w800,
-                color: Color.fromARGB(255, 14, 50, 230),
-              ),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 249, 14, 151),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 30,
-                  vertical: 15,
+        padding: const EdgeInsets.only(top: 1, bottom: 50),
+        child: Center(
+          child: Column(
+            //  mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Hello, Ranjit!",
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w800,
+                  color: Color.fromARGB(255, 14, 50, 230),
                 ),
-                shape: RoundedRectangleBorder(
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 249, 14, 151),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 30,
+                    vertical: 15,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(color: Colors.white, width: 1),
+                  ),
+                  elevation: 5,
+                ),
+                onPressed: () {
+                  setState(() {
+                    showImage = !showImage;
+                  });
+                },
+                child: Text(
+                  showImage ? "Hide Data" : "Show Data",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              if (showImage)
+                ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  side: const BorderSide(color: Colors.white, width: 1),
+                  child: Image.asset(
+                    'assets/images/group.jpg',
+                    height: 200,
+                    width: 300,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                elevation: 5,
-              ),
-              onPressed: () {
-                setState(() {
-                  showImage = !showImage;
-                });
-              },
-              child: Text(
-                showImage ? "Hide Data" : "Show Data",
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(height: 10),
+              Container(
+                width: 150,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 22, 15, 224),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            if (showImage)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  'assets/images/group.jpg',
-                  height: 200,
-                  width: 300,
-                  fit: BoxFit.cover,
+                child: Center(
+                  child: Text(
+                    number.toString(),
+                    style: TextStyle(
+                      fontSize: 78,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
-            const SizedBox(height: 10),
-            Container(
-              width: 150,
-              height: 100,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 22, 15, 224),
-                borderRadius: BorderRadius.circular(12),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        number++;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(8),
+                      elevation: 8,
+                    ),
+                    child: Icon(Icons.add, size: 70, color: Colors.white),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        number = 0;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(8),
+                      elevation: 8,
+                    ),
+                    child: Icon(Icons.refresh, size: 70, color: Colors.white),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        number--;
+                      });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(8),
+                      elevation: 8,
+                    ),
+                    child: Icon(Icons.remove, size: 70, color: Colors.white),
+                  ),
+                ],
               ),
-              child: Center(
+              const SizedBox(height: 10),
+              Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100),
+                  color: const Color.fromARGB(255, 5, 37, 246),
+                ),
+                child: Center(
+                  child: Text(
+                    formatTime(stopwatch.elapsedMilliseconds),
+                    style: TextStyle(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                      fontFamily: 'Times New Roman',
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 3),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: toogleStopWatch,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(8),
+                      elevation: 8,
+                    ),
+                    child: Icon(
+                      isRunning ? Icons.pause : Icons.play_arrow,
+                      size: 70,
+                      color: Colors.white,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: resetStopWatch,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                      shape: CircleBorder(),
+                      padding: EdgeInsets.all(8),
+                      elevation: 8,
+                    ),
+                    child: Icon(Icons.refresh, size: 70, color: Colors.white),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 10,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: const BorderSide(color: Colors.white, width: 1),
+                  ),
+                  elevation: 5,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const InnerPage()),
+                  );
+                },
                 child: Text(
-                  number.toString(),
+                  'Explore',
                   style: TextStyle(
-                    fontSize: 78,
-                    fontWeight: FontWeight.w800,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      number++;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(8),
-                    elevation: 8,
-                  ),
-                  child: Icon(Icons.add, size: 70, color: Colors.white),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      number = 0;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(8),
-                    elevation: 8,
-                  ),
-                  child: Icon(Icons.refresh, size: 70, color: Colors.white),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      number--;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(8),
-                    elevation: 8,
-                  ),
-                  child: Icon(Icons.remove, size: 70, color: Colors.white),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: const Color.fromARGB(255, 5, 37, 246),
-              ),
-              child: Center(
-                child: Text(
-                  formatTime(stopwatch.elapsedMilliseconds),
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
-                    fontFamily: 'Times New Roman',
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 3),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: toogleStopWatch,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(8),
-                    elevation: 8,
-                  ),
-                  child: Icon(
-                    isRunning ? Icons.pause : Icons.play_arrow,
-                    size: 70,
-                    color: Colors.white,
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: resetStopWatch,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 246, 5, 170),
-                    shape: CircleBorder(),
-                    padding: EdgeInsets.all(8),
-                    elevation: 8,
-                  ),
-                  child: Icon(Icons.refresh, size: 70, color: Colors.white),
-                ),
-              ],
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class InnerPage extends StatefulWidget {
+  const InnerPage({super.key});
+
+  @override
+  State<InnerPage> createState() => _InnerPageState();
+}
+
+class _InnerPageState extends State<InnerPage> {
+  int selectedIndex = 0;
+  final pages = [
+    const Center(child: Text('Home')),
+    const Center(child: Text('Profile')),
+    const Center(child: Text('Settings')),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: pages[selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: const Color.fromARGB(255, 133, 253, 34),
+        selectedItemColor: Color.fromARGB(255, 246, 5, 170),
+        unselectedItemColor: Colors.grey,
+        unselectedFontSize: 14,
+        selectedFontSize: 15,
+        currentIndex: selectedIndex,
+        onTap: (index) => setState(() => selectedIndex = index),
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, size: 30),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, size: 30),
+            label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings, size: 30),
+            label: 'Settings',
+          ),
+        ],
       ),
     );
   }
