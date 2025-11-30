@@ -576,9 +576,9 @@ class InnerPage extends StatefulWidget {
 class _InnerPageState extends State<InnerPage> {
   int selectedIndex = 0;
   final pages = [
-    const Center(child: Text('Home')),
-    const Center(child: Text('Profile')),
-    const Center(child: Text('Settings')),
+    const InnerHomePage(),
+    const ProfilePage(),
+    const SettingPage(),
   ];
 
   @override
@@ -610,5 +610,277 @@ class _InnerPageState extends State<InnerPage> {
         ],
       ),
     );
+  }
+}
+
+class InnerHomePage extends StatefulWidget {
+  const InnerHomePage({super.key});
+
+  @override
+  State<InnerHomePage> createState() => _InnerHomePageState();
+}
+
+class _InnerHomePageState extends State<InnerHomePage> {
+  bool isSearching = false;
+
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
+
+  List<Map<String, String>> posts = [];
+  List<Map<String, String>> filteredPosts = [];
+
+  void addPost() {
+    String title = titleController.text.trim();
+    String description = descriptionController.text.trim();
+
+    if (title.isEmpty || description.isEmpty) return;
+
+    setState(() {
+      posts.insert(0, {"title": title, "description": description});
+      filteredPosts = List.from(posts);
+    });
+
+    titleController.clear();
+    descriptionController.clear();
+  }
+
+  void searchPosts(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        filteredPosts = List.from(posts);
+      } else {
+        filteredPosts = posts.where((post) {
+          return post["title"]!.toLowerCase().contains(query.toLowerCase()) ||
+              post["description"]!.toLowerCase().contains(query.toLowerCase());
+        }).toList();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(12),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 20),
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.amberAccent,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 5, left: 5),
+                            child: TextField(
+                              controller: titleController,
+                              decoration: InputDecoration(
+                                hintText: 'Enter the title',
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 10,
+                                  horizontal: 10,
+                                ),
+                                hintStyle: const TextStyle(color: Colors.black),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide.none,
+                                ),
+                              ),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 5,
+                            left: 8,
+                            right: 5,
+                          ),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color.fromARGB(
+                                255,
+                                246,
+                                5,
+                                170,
+                              ),
+                              shape: const CircleBorder(),
+                              padding: const EdgeInsets.all(8),
+                              elevation: 8,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                isSearching = !isSearching;
+                              });
+                            },
+                            child: const Icon(
+                              Icons.search,
+                              size: 28,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (isSearching)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: TextField(
+                          controller: searchController,
+                          onChanged: searchPosts,
+                          decoration: InputDecoration(
+                            hintText: "Search Here",
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.all(12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    const SizedBox(height: 10),
+                    TextField(
+                      maxLines: 5,
+                      controller: descriptionController,
+                      decoration: InputDecoration(
+                        hintText: 'Enter details or description...',
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.all(12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                      style: const TextStyle(color: Colors.black, fontSize: 16),
+                    ),
+                    const SizedBox(height: 4),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: ElevatedButton(
+                        onPressed: addPost,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            246,
+                            5,
+                            170,
+                          ),
+                          padding: const EdgeInsets.all(8),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: const Text(
+                          'Post Info',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              Column(
+                children: filteredPosts.map((post) {
+                  return Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.amberAccent,
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 4,
+                          spreadRadius: 1,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          post["title"]!,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          post["description"]!,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
+  }
+}
+
+class SettingPage extends StatefulWidget {
+  const SettingPage({super.key});
+
+  @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
