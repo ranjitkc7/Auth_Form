@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 void main() {
   runApp(const MyApp());
@@ -865,9 +867,117 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  File? image;
+
+  Future<void> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickImage = await picker.pickImage(
+      source: ImageSource.gallery,
+    );
+    if (pickImage != null) {
+      setState(() {
+        image = File(pickImage.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadiusGeometry.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Ranjit K.C",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text("Flutter Developer"),
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+                      ),
+                      child: const Text(
+                        "View Profile",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // ClipRRect(
+                    //   borderRadius: BorderRadius.circular(100),
+                    //   child: Image.asset(
+                    //     "assets/images/doggy.webp",
+                    //     width: 100,
+                    //     height: 100,
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    // ),
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: image == null
+                          ? Image.asset(
+                              "assets/images/doggy.webp",
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.file(
+                              image!,
+                              width: 100,
+                              height: 100,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text("Doggy Kshetry", style: TextStyle(fontSize: 20)),
+                    ElevatedButton(
+                      onPressed: pickImage,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(255, 246, 5, 170),
+                      ),
+                      child: Text(
+                        "Change Profile",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
