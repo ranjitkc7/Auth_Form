@@ -970,10 +970,32 @@ class _ProfilePageState extends State<ProfilePage> {
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
+                    const SizedBox(height: 5),
                   ],
                 ),
               ),
             ),
+            const SizedBox(height: 10),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {},
+                splashColor: Colors.red,
+                highlightColor: Colors.pinkAccent,
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    // color: Colors.amber,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    "Custom button",
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -991,6 +1013,57 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          // Expanded(
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: Center(
+          //       child: ListView.builder(
+          //         itemCount: 10,
+          //         itemBuilder: (context, index) {
+          //           return Text("Item $index");
+          //         },
+          //       )
+          //     ),
+          //   ),
+          // ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 200,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
+              child: ListView.separated(
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  return Text("Item $index");
+                },
+                separatorBuilder: (context, index) {
+                  return Divider();
+                },
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 100,
+            child: Padding(   
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: 4,
+                itemBuilder: (context, index) {
+                  List<Color> colors = [Colors.red, Colors.yellow, Colors.green, Color.fromARGB(255, 246, 5, 170)];
+                  return Container(width: 100, height: 100, color: colors[index]);
+                },
+                separatorBuilder: (context, index) => SizedBox(width: 10),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
