@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 void main() {
   runApp(const MyApp());
@@ -581,6 +582,7 @@ class _InnerPageState extends State<InnerPage> {
     const InnerHomePage(),
     const ProfilePage(),
     const SettingPage(),
+    const ScannerPage(),
   ];
 
   @override
@@ -608,6 +610,10 @@ class _InnerPageState extends State<InnerPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.settings, size: 30),
             label: 'Settings',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.qr_code_scanner, size: 30),
+            label: "Scanner",
           ),
         ],
       ),
@@ -1036,12 +1042,32 @@ class _SettingPageState extends State<SettingPage> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
               child: ListView.separated(
-                itemCount: 10,
+                scrollDirection: Axis.vertical,
+                itemCount: 5,
                 itemBuilder: (context, index) {
-                  return Text("Item $index");
+                  List items = [
+                    "Sample 1",
+                    "Sample 2",
+                    "Sample 3",
+                    "Sample 4",
+                    "Sample 5",
+                  ];
+                  return Container(
+                    height: 50,
+                    color: Colors.amberAccent,
+                    child: Center(
+                      child: Text(
+                        items[index],
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                  );
                 },
                 separatorBuilder: (context, index) {
-                  return Divider();
+                  return Divider(thickness: 2);
                 },
               ),
             ),
@@ -1049,20 +1075,102 @@ class _SettingPageState extends State<SettingPage> {
           const SizedBox(height: 10),
           SizedBox(
             height: 100,
-            child: Padding(   
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: 4,
+                itemCount: 5,
                 itemBuilder: (context, index) {
-                  List<Color> colors = [Colors.red, Colors.yellow, Colors.green, Color.fromARGB(255, 246, 5, 170)];
-                  return Container(width: 100, height: 100, color: colors[index]);
+                  List colors = [
+                    Colors.red,
+                    Colors.yellow,
+                    Colors.green,
+                    Color.fromARGB(255, 246, 5, 170),
+                    Colors.purple,
+                  ];
+                  return Container(
+                    width: 100,
+                    height: 100,
+                    color: colors[index],
+                  );
                 },
                 separatorBuilder: (context, index) => SizedBox(width: 10),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class ScannerPage extends StatefulWidget {
+  const ScannerPage({super.key});
+
+  @override
+  State<ScannerPage> createState() => _ScannerPageState();
+}
+
+class _ScannerPageState extends State<ScannerPage> {
+  bool isScanned = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: MobileScanner(
+        onDetect: (capture) {
+          if (isScanned) return;
+
+          final List<Barcode> barcodes = capture.barcodes;
+          final Barcode barcode = barcodes.first;
+
+          setState(() => isScanned = true);
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) =>
+                  ResultScreen(result: barcode.rawValue ?? "No data"),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ResultScreen extends StatelessWidget {
+  final String result;
+  const ResultScreen({super.key, required this.result});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Result Screen"),
+        backgroundColor: const Color.fromARGB(255, 246, 5, 170),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Scanned Data:",
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              result,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Scan Again"),
+            ),
+          ],
+        ),
       ),
     );
   }
