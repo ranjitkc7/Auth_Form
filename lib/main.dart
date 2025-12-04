@@ -1009,6 +1009,13 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
+class Details {
+  String name;
+  String value;
+
+  Details(this.name, this.value);
+}
+
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
@@ -1017,88 +1024,227 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  List<Details> details = [
+    Details("Ranjit K.C", "Flutter Developer"),
+    Details("Bikash Kshetry", "Web Developer"),
+    Details("Mamata Thapa", "Graphics Designer"),
+    Details("Rajesh K.C", "Flutter Developer"),
+    Details("Rajesh K.C", "Flutter Developer"),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          // Expanded(
-          //   child: Padding(
-          //     padding: const EdgeInsets.all(8.0),
-          //     child: Center(
-          //       child: ListView.builder(
-          //         itemCount: 10,
-          //         itemBuilder: (context, index) {
-          //           return Text("Item $index");
-          //         },
-          //       )
-          //     ),
-          //   ),
-          // ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 200,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5),
-              child: ListView.separated(
-                scrollDirection: Axis.vertical,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  List items = [
-                    "Sample 1",
-                    "Sample 2",
-                    "Sample 3",
-                    "Sample 4",
-                    "Sample 5",
-                  ];
-                  return Container(
-                    height: 50,
-                    color: Colors.amberAccent,
-                    child: Center(
-                      child: Text(
-                        items[index],
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            // Expanded(
+            //   child: Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: Center(
+            //       child: ListView.builder(
+            //         itemCount: 10,
+            //         itemBuilder: (context, index) {
+            //           return Text("Item $index");
+            //         },
+            //       )
+            //     ),
+            //   ),
+            // ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 200,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0,
+                  vertical: 5,
+                ),
+                child: ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    List items = [
+                      "Sample 1",
+                      "Sample 2",
+                      "Sample 3",
+                      "Sample 4",
+                      "Sample 5",
+                    ];
+                    return Container(
+                      height: 50,
+                      color: Colors.amberAccent,
+                      child: Center(
+                        child: Text(
+                          items[index],
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider(thickness: 2);
+                  },
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 100,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 6,
+                  itemBuilder: (context, index) {
+                    List colors = [
+                      Colors.red,
+                      Colors.yellow,
+                      Colors.green,
+                      Color.fromARGB(255, 246, 5, 170),
+                      Colors.purple,
+                      Colors.teal,
+                    ];
+                    return Container(
+                      width: 100,
+                      height: 100,
+                      color: colors[index],
+                      child: Center(
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.white,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "${index + 1}",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => SizedBox(width: 10),
+                ),
+              ),
+            ),
+            Container(
+              width: 200,
+              height: 200,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [Colors.yellowAccent, Colors.blue],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(22),
+                  bottomRight: Radius.circular(22),
+                ),
+                border: Border.all(color: Colors.white, width: 2),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5,
+                    spreadRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadiusGeometry.circular(12),
+                      child: Image.asset(
+                        "assets/images/doggy.webp",
+                        width: 130,
+                        height: 130,
+                      ),
                     ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Divider(thickness: 2);
-                },
+                  ),
+                  const SizedBox(height: 5),
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pinkAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text(
+                      "Image Button",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          const SizedBox(height: 10),
-          SizedBox(
-            height: 100,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  List colors = [
-                    Colors.red,
-                    Colors.yellow,
-                    Colors.green,
-                    Color.fromARGB(255, 246, 5, 170),
-                    Colors.purple,
-                  ];
-                  return Container(
-                    width: 100,
-                    height: 100,
-                    color: colors[index],
-                  );
-                },
-                separatorBuilder: (context, index) => SizedBox(width: 10),
+            const SizedBox(height: 5),
+            SizedBox(
+              height: 30,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      color: const Color.fromARGB(255, 237, 20, 5),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(color: Color.fromARGB(255, 166, 252, 8)),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Container(color: Color.fromARGB(255, 246, 5, 170)),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            // const SizedBox(height: 4),
+            // ListView.separated(
+            //   itemBuilder: (context, index) {
+            //     return ListTile(
+            //       contentPadding: const EdgeInsets.all(4),
+            //       tileColor: Color.fromARGB(255, 246, 5, 170),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(8),
+            //       ),
+            //       leading: Icon(Icons.person, size: 30, color: Colors.white),
+            //       title: Text(
+            //         details[index].name,
+            //         style: TextStyle(
+            //           fontSize: 20,
+            //           color: Colors.white,
+            //           fontWeight: FontWeight.w800,
+            //         ),
+            //       ),
+            //       subtitle: Text(
+            //         details[index].value,
+            //         style: TextStyle(fontSize: 15, color: Colors.white),
+            //       ),
+            //       trailing: Icon(
+            //         Icons.arrow_forward_ios,
+            //         size: 25,
+            //         color: Colors.white,
+            //       ),
+            //       onTap: () => print("Ranjit K.C."),
+            //     );
+            //   },
+            //   itemCount: details.length,
+            //   separatorBuilder: (context, index) => SizedBox(height: 5),
+            // ),
+          ],
+        ),
       ),
     );
   }
