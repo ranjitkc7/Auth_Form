@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -873,6 +874,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  var time = DateTime.now();
   File? image;
 
   Future<void> pickImage() async {
@@ -889,120 +891,173 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadiusGeometry.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Ranjit K.C",
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text("Flutter Developer"),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 246, 5, 170),
-                      ),
-                      child: const Text(
-                        "View Profile",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                  ],
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: const Color.fromARGB(255, 135, 254, 8),
+        textTheme: GoogleFonts.sourceSans3TextTheme().copyWith(
+          bodyLarge: TextStyle(
+            color: Colors.black,
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+          displayLarge: TextStyle(
+            color: Colors.black,
+            fontSize: 22,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ),
+
+      debugShowCheckedModeBanner: false,
+
+      home: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(12),
                 ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Card(
-              elevation: 5,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(5),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // ClipRRect(
-                    //   borderRadius: BorderRadius.circular(100),
-                    //   child: Image.asset(
-                    //     "assets/images/doggy.webp",
-                    //     width: 100,
-                    //     height: 100,
-                    //     fit: BoxFit.cover,
-                    //   ),
-                    // ),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: image == null
-                          ? Image.asset(
-                              "assets/images/doggy.webp",
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.file(
-                              image!,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.cover,
-                            ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text("Doggy Kshetry", style: TextStyle(fontSize: 20)),
-                    ElevatedButton(
-                      onPressed: pickImage,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 246, 5, 170),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Ranjit K.C",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
                       ),
-                      child: Text(
-                        "Change Profile",
-                        style: TextStyle(color: Colors.white),
+                      SizedBox(height: 4),
+                      Text("Flutter Developer"),
+                      ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            246,
+                            5,
+                            170,
+                          ),
+                        ),
+                        child: const Text(
+                          "View Profile",
+                          style: TextStyle(color: Colors.white),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {},
-                splashColor: Colors.red,
-                highlightColor: Colors.pinkAccent,
-                child: Container(
-                  padding: EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    // color: Colors.amber,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    "Custom button",
-                    style: TextStyle(color: Colors.black, fontSize: 20),
+                    ],
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 10),
-          ],
+              const SizedBox(height: 10),
+              Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // ClipRRect(
+                      //   borderRadius: BorderRadius.circular(100),
+                      //   child: Image.asset(
+                      //     "assets/images/doggy.webp",
+                      //     width: 100,
+                      //     height: 100,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: image == null
+                            ? Image.asset(
+                                "assets/images/doggy.webp",
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.file(
+                                image!,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text("Doggy Kshetry", style: TextStyle(fontSize: 20)),
+                      ElevatedButton(
+                        onPressed: pickImage,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 246, 5, 170),
+                        ),
+                        child: Text(
+                          "Change Profile",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {},
+                  splashColor: Colors.red,
+                  highlightColor: Colors.pinkAccent,
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      // color: Colors.amber,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      "Custom button",
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Hello Flutter Developer World",
+                style: GoogleFonts.sourceSans3(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+              Text(
+                "This is text body.",
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+              Text(
+                "Time:${time.hour}:${time.minute}:${time.second}",
+                style: TextStyle(fontSize: 20),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {});
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 246, 5, 170),
+                ),
+                child: Text(
+                  "Current Time",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -1210,39 +1265,50 @@ class _SettingPageState extends State<SettingPage> {
                 ],
               ),
             ),
-            // const SizedBox(height: 4),
-            // ListView.separated(
-            //   itemBuilder: (context, index) {
-            //     return ListTile(
-            //       contentPadding: const EdgeInsets.all(4),
-            //       tileColor: Color.fromARGB(255, 246, 5, 170),
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(8),
-            //       ),
-            //       leading: Icon(Icons.person, size: 30, color: Colors.white),
-            //       title: Text(
-            //         details[index].name,
-            //         style: TextStyle(
-            //           fontSize: 20,
-            //           color: Colors.white,
-            //           fontWeight: FontWeight.w800,
-            //         ),
-            //       ),
-            //       subtitle: Text(
-            //         details[index].value,
-            //         style: TextStyle(fontSize: 15, color: Colors.white),
-            //       ),
-            //       trailing: Icon(
-            //         Icons.arrow_forward_ios,
-            //         size: 25,
-            //         color: Colors.white,
-            //       ),
-            //       onTap: () => print("Ranjit K.C."),
-            //     );
-            //   },
-            //   itemCount: details.length,
-            //   separatorBuilder: (context, index) => SizedBox(height: 5),
-            // ),
+            SizedBox(height: 10),
+            Container(
+              margin: EdgeInsets.all(8),
+              child: ListTile(
+                contentPadding: const EdgeInsets.all(8),
+                tileColor: Color.fromARGB(255, 246, 5, 170),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                leading: CircleAvatar(
+                  radius: 30,
+                  backgroundImage: AssetImage("assets/images/god.webp"),
+                ),
+                title: Text(
+                  "Ranjit Kshetry",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                subtitle: Text(
+                  "Flutter Developer",
+                  style: TextStyle(color: Colors.white),
+                ),
+                trailing: Material(
+                  color: Colors.transparent,
+                  child: Ink(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 4, 247, 13),
+                      shape: BoxShape.circle,
+                    ),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Icon(Icons.add, size: 26, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ),
+                onTap: () {},
+              ),
+            ),
           ],
         ),
       ),
